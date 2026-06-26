@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        - id: order-service
+          uri: http://order-service:8081
+          predicates:
+            - Path=/orders,/orders/**
+        - id: inventory-service
+          uri: http://inventory-service:8082
+          predicates:
+            - Path=/inventory,/inventory/**
